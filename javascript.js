@@ -132,5 +132,6 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    return Math.round((a / b) * (10**15));
+    let val = (a / b);
+    return +val.toString().substring(0, 15);
 }
