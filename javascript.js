@@ -1,4 +1,3 @@
-const MAX_NUM = 999999999999999;
 const MAX_LEN = 15;
 
 let [num1, num2, operator] = ["", "", ""];
@@ -34,14 +33,18 @@ function clickButton(e) {
 }
 
 function handleNum(num) {
+    if (typeof num1 === "number") {
+        handleClear();
+    }
+
     let curNum = num;
     if (operator && (num2 || curNum != 0)) {
-        if (num2.length < 15) {
+        if (num2.length < MAX_LEN) {
             num2 += curNum;
         }
         curNum = num2;
     } else if (num1 || curNum != 0) {
-        if (num1.length < 15) {
+        if (num1.length < MAX_LEN) {
             num1 += curNum;
         }
         curNum = num1;
@@ -52,14 +55,24 @@ function handleNum(num) {
 }
 
 function handleOperator(op) {
-    if (operator) {
+    if (num2) {
         handleEquals();
     }
+    operator = op;
 }
 
 function handleEquals() {
-    if (!operator) {
+    if (!operator || !num2) {
         return;
+    }
+
+    let val = operate(+num1, +num2, operator);
+    handleClear();
+    if (val.toString().length > MAX_LEN) {
+        displayText.textContent = "ERROR, OVERFLOW";
+    } else {
+        displayText.textContent = val;
+        num1 = val;
     }
 }
 
