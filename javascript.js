@@ -33,7 +33,8 @@ function clickButton(e) {
 }
 
 function handleNum(num) {
-    if (typeof num1 === "number") {
+    // only happens after hitting equals
+    if (typeof num1 === "number" && !num2 && !operator) {
         handleClear();
     }
 
@@ -69,7 +70,7 @@ function handleEquals() {
     let val = operate(+num1, +num2, operator);
     handleClear();
     if (val.toString().length > MAX_LEN) {
-        displayText.textContent = "ERROR, OVERFLOW";
+        displayText.textContent = "OVERFLOW ERROR";
     } else {
         displayText.textContent = val;
         num1 = val;
@@ -123,7 +124,7 @@ function add(a, b) {
 }
 
 function subtract(a, b) {
-    return b - a;
+    return a - b;
 }
 
 function multiply(a, b) {
@@ -131,5 +132,5 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    return a / b;
+    return Math.round((a / b) * (10**15));
 }
